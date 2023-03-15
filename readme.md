@@ -18,7 +18,7 @@
 -----------------------------------------------------------------------------
 # Instruction for Running this project in your system :
 ## 1) do pen the command prompt 
-## 2) git clone https://github.com/raviraj3214/EmployeeReviewSystem.git
+## 2) git clone https://github.com/raviraj3214/EmployeeReviewSys.git
 ## 3 ) this will take few minutes and after this the employeeReviewSystem folder will get clonned in you root directory 
 ## 4) open that folder in the vs code 
 ## 5) open the terminal and run npm i command 
