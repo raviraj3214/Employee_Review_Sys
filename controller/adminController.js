@@ -13,43 +13,37 @@ module.exports.signUp_view=async function(req,res){
 
 // this function is to create the admin db
 
-module.exports.createAdmin=async function(req,res){
-    console.log(req.body)
-    // checks to confirm the details given by admin
-    if (req.body.password != req.body.confirm_password){
-        // req.flash('error', 'Passwords do not match');
-        console.log('hey passwords not match')
-        req.flash('error',"Hey !! Your Passwords Does Not Match")
-        return res.redirect('back');
+module.exports.createAdmin = async function (req, res) {
+  console.log(req.body);
+
+  // Checks to confirm the details given by the admin
+  if (req.body.password !== req.body.confirm_password) {
+    console.log('Passwords do not match');
+    req.flash('error', "Hey!! Your Passwords Do Not Match");
+    return res.redirect('back');
+  }
+
+  try {
+    // Check if an admin with the given email already exists
+    const existingAdmin = await Admin.findOne({ email: req.body.email });
+
+    if (!existingAdmin) {
+      // Create the admin
+      const createdAdmin = await Admin.create(req.body);
+      req.flash('success', "Registered Successfully");
+      return res.redirect('/admin/login');
+    } else {
+      console.log("You are already registered!");
+      req.flash('success', "You are already Registered");
+      return res.redirect('back');
     }
+  } catch (err) {
+    console.log(err);
+    req.flash('error', "An error occurred while processing your request");
+    return res.redirect('back');
+  }
+};
 
-    Admin.findOne({email: req.body.email}, function(err, user){
-        // used flash notification for the error if any error occur in b/w the process
-        if(err){console.log(err)}
-        if (!user){
-            // it creates the admin 
-            Admin.create(req.body, function(err, user){
-                if(err){
-                    // req.flash('error', err);
-                    console.log(err);
-                    return
-                }
-
-                req.flash('success',"Registered Successfully")
-
-                return res.redirect('/admin/login');
-            })
-        }else{
-            // req.flash('success', 'You have signed up, login to continue!');
-            console.log("You have signed up, login to continue!");
-            req.flash('success',"You are already Registered")
-            return res.redirect('back');
-        }
-
-    });
-    
-
-}
 // it render the login page view 
 module.exports.loginPage = function(req,res){
     res.render('sign-in')
