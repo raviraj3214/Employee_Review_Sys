@@ -1,10 +1,11 @@
 const express=require('express')
 // for deployment
-const PORT=8000; 
+require('dotenv').config()
+
+const PORT=process.env.PORT; 
 const app=express()
 const mongoose=require('./config/mongoose')
 const session=require('express-session')
-require('dotenv').config()
 
 
 const flash = require('connect-flash');
